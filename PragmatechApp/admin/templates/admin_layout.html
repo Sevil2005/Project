@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="az">
+
+    <head>
+        <meta charset="utf-8" />
+        <title>Pragmatech - Admin Panel</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta content="Pragmatech Admin Panel" name="description" />
+        <meta content="" name="author" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+        <!-- App favicon -->
+        <link rel="icon" href="{{ url_for('static', filename='admin/images/favicon-pragma.png') }}" type="image/x-icon">
+
+        <!-- App css -->
+        <link href="{{ url_for('static', filename='admin/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
+        <link href="{{ url_for('static', filename='admin/css/jquery-ui.min.css') }}" rel="stylesheet">
+        <link href="{{ url_for('static', filename='admin/css/icons.min.css') }}" rel="stylesheet" type="text/css" />
+        <link href="{{ url_for('static', filename='admin/css/metisMenu.min.css') }}" rel="stylesheet" type="text/css" />
+        <link href="{{ url_for('static', filename='admin/css/app.min.css') }}" rel="stylesheet" type="text/css" />
+
+        <link href="{{ url_for('static', filename='admin/css/jquery-ui.min.css') }}" rel="stylesheet">
+        <link href="{{ url_for('static', filename='admin/css/icons.min.css') }}" rel="stylesheet" type="text/css" />
+        <link href="{{ url_for('static', filename='admin/css/metisMenu.min.css') }}" rel="stylesheet" type="text/css" />
+        <link href="{{ url_for('static', filename='admin/css/app-material.min.css') }}" rel="stylesheet" type="text/css" />
+
+    </head>
+
+    <body>
+        <!-- leftbar-tab-menu -->
+        <div class="leftbar-tab-menu">
+            <div class="main-icon-menu">
+                <a href="#" class="logo logo-metrica d-block text-center">
+                    <span>
+                        <img src="{{ url_for('static', filename='admin/images/favicon-pragma.png') }}" alt="logo-small" class="logo-sm">
+                    </span>
+                </a>
+                <nav class="nav">
+
+                    <a href="#PragmatechPages" class="nav-link" data-toggle="tooltip-custom" data-placement="right" title="" data-original-title="Səhifələr" data-trigger="hover">
+                        <i data-feather="copy" class="align-self-center menu-icon icon-dual"></i>             
+                    </a><!--end MetricaPages--> 
+
+                </nav><!--end nav-->
+            </div><!--end main-icon-menu-->
+
+            <div class="main-menu-inner">
+                <!-- LOGO -->
+                <div class="topbar-left">
+                    <a href="#" class="logo">
+                        <span>
+                            <h3 style="margin-top:24px;">Pragmatech</h3>
+                        </span>
+                    </a>                    
+                </div>
+                <!--end logo-->
+                <div class="menu-body slimscroll">
+
+                    <div id="PragmatechPages" class="main-icon-menu-pane">
+                        <div class="title-box">
+                            <h6 class="menu-title">Səhifələr</h6>        
+                        </div>
+                        <ul class="nav">
+                            <li class="nav-item"><a class="nav-link" href="{{ url_for('admin.about') }}">Haqqımızda</a></li>
+                        </ul>
+                    </div><!-- end Pages -->
+
+                </div><!--end menu-body-->
+            </div><!-- end main-menu-inner-->
+        </div>
+        <!-- end leftbar-tab-menu-->
+
+        <!-- Top Bar Start -->
+        <div class="topbar">
+            <!-- Navbar -->
+            <nav class="navbar-custom">
+                <ul class="list-unstyled topbar-nav mb-0">
+                    <li>
+                        <a href="#">
+                            <span class="responsive-logo">
+                                <img src="{{ url_for('static', filename='admin/images/favicon-pragma.png') }}" alt="logo-small" class="logo-sm align-self-center" height="34">
+                            </span>
+                        </a>
+                    </li>
+                    <li>
+                        <button class="button-menu-mobile nav-link">
+                            <i data-feather="menu" class="align-self-center"></i>
+                        </button>
+                    </li>
+                </ul>
+            </nav>
+            <!-- end navbar-->
+        </div>
+        <!-- Top Bar End -->
+
+        <div class="page-wrapper">
+
+            <!-- Page Content-->
+            <div class="page-content-tab">
+
+                <div class="container-fluid">
+                    <!-- Page-Title -->
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="page-title-box">
+                                {% block main %}{% endblock %}
+                            </div><!--end page-title-box-->
+                        </div><!--end col-->
+                    </div>
+                    <!-- end page title end breadcrumb -->
+                </div><!-- container -->
+                <footer class="footer text-center text-sm-left">
+                    &copy; 2020 Pragmatech
+                </footer><!--end footer-->
+            </div>
+            <!-- end page content -->
+        </div>
+        <!-- end page-wrapper -->
+
+
+
+
+        <!-- jQuery  -->
+        <script src="{{ url_for('static', filename='admin/js/jquery.min.js') }}"></script>
+        <script src="{{ url_for('static', filename='admin/js/jquery-ui.min.js') }}"></script>
+        <script src="{{ url_for('static', filename='admin/js/bootstrap.bundle.min.js') }}"></script>
+        <script src="{{ url_for('static', filename='admin/js/metismenu.min.js') }}"></script>
+        <script src="{{ url_for('static', filename='admin/js/waves.js') }}"></script>
+        <script src="{{ url_for('static', filename='admin/js/feather.min.js') }}"></script>
+        <script src="{{ url_for('static', filename='admin/js/jquery.slimscroll.min.js') }}"></script>
+
+        <!-- App js -->
+        <script src="{{ url_for('static', filename='admin/js/app.js') }}"></script>
+
+    </body>
+
+</html>
