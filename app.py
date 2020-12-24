@@ -1,4 +1,6 @@
-from PragmatechApp import app
+from PragmatechApp import create_app
+
+app = create_app()
 
 if __name__ == '__main__':
     app.run(debug=True)
