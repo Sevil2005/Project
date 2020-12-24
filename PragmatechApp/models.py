@@ -15,10 +15,7 @@ class AboutPage(Base):
     banner_img = db.Column(db.String(20), nullable=False)
     main_text = db.Column(db.String(100), nullable=False)
     second_img = db.Column(db.String(20), nullable=False)
-    third_img = db.Column(db.String(20), nullable=False)
-    fourth_img = db.Column(db.String(20), nullable=False)
-    fifth_img = db.Column(db.String(20), nullable=False)
-    
+
 class QuestionAnswer(Base):
     __tablename__ = 'QuestionAnswer'
     id = db.Column(db.Integer, primary_key=True)
