@@ -1,0 +1,56 @@
+{% extends 'admin_layout.html' %}
+{% block main %}
+                        <div class="card">
+                            <div class="card-body"> 
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <form method="POST" action="" novalidate enctype="multipart/form-data" class="default-form"> 
+                                            {{ form.hidden_tag() }}
+                                            <div class="form-group row">
+                                                {{ form.card_img.label(class="col-sm-2 col-form-label text-right") }}
+                                                {{ form.card_img(style="margin-left:12px; margin-top:5px;") }}
+                                                {% if form.card_img.errors %}
+                                                    {% for error in form.card_img.errors %}
+                                                        <span class="text-danger">{{ error }}</span></br>
+                                                    {% endfor %}
+                                                {% endif %}
+                                            </div> 
+                                            <div class="form-group row">
+                                                {{ form.title.label(class="col-sm-2 col-form-label text-right") }}
+                                                <div class="col-sm-10">
+                                                    {% if form.title.errors %}
+                                                        {{ form.title(class="is-invalid form-control") }}
+                                                        <div class="invalid-feedback">
+                                                            {% for error in form.title.errors %}
+                                                                <span>{{ error }}</span>
+                                                            {% endfor %}
+                                                        </div>
+                                                    {% else %}
+                                                        {{ form.title(class="form-control") }}
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                {{ form.description.label(class="col-sm-2 col-form-label text-right") }}
+                                                <div class="col-sm-10">
+                                                    {% if form.description.errors %}
+                                                        {{ form.description(class="is-invalid form-control") }}
+                                                        <div class="invalid-feedback">
+                                                            {% for error in form.description.errors %}
+                                                                <span>{{ error }}</span>
+                                                            {% endfor %}
+                                                        </div>
+                                                    {% else %}
+                                                        {{ form.description(class="form-control") }}
+                                                    {% endif %}
+                                                </div>
+                                            </div> 
+                                            <div class="form-group row">
+                                                {{ form.submit(class="btn btn-primary") }}
+                                            </div>                                 
+                                        </form>
+                                    </div>
+                                </div>                                                                      
+                            </div>
+                        </div>
+{% endblock %}

@@ -1,0 +1,75 @@
+{% extends 'admin_layout.html' %}
+{% block main %}
+<h4>Banner Section Datas</h4>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table class="table table-striped mb-0">
+                                            <thead>
+                                                <tr>
+                                                    <th>#</th>
+                                                    <th>Əsas Şəkil</th>
+                                                    <th>Əsas Yazı</th>
+                                                    <th>İkinci Şəkil</th>
+                                                    <th>Redaktə</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% for data in datas %}
+                                                    <tr>
+                                                        <td>{{ data.id }}</td>
+                                                        <td>{{ data.banner_img }}</td>
+                                                        <td>{{ data.main_text }}</td>
+                                                        <td>{{ data.second_img }}</td>
+                                                        <td>
+                                                            <a href="{{url_for('admin.about_edit', id = data.id)}}" class="mr-2"><i class="fas fa-edit text-info font-16"></i></a>
+                                                        </td>
+                                                    </tr>
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+<h4>Sual-Cavab Section</h4>
+<a class="btn btn-primary mb-3" href="{{ url_for('admin.about_que_add') }}">Yeni Sual-Cavab Əlavə Et</a>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table class="table table-striped mb-0">
+                                            <thead>
+                                                <tr>
+                                                    <th>#</th>
+                                                    <th>Sual</th>
+                                                    <th>Cavab</th>
+                                                    <th>Redaktə/Sil</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% for question in questions %}
+                                                    <tr>
+                                                        <td>{{ question.id }}</td>
+                                                        <td>{{ question.question }}</td>
+                                                        <td>{{ question.answer }}</td>
+                                                        <td>
+                                                            <a href="{{url_for('admin.about_que_edit', id = question.id)}}" class="mr-2"><i class="fas fa-edit text-info font-16"></i></a>
+                                                            <a href="{{url_for('admin.about_que_delete', id = question.id)}}"><i class="fas fa-trash-alt text-danger font-16"></i></a>
+                                                        </td>
+                                                    </tr>
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div> 
+
+{% endblock %}

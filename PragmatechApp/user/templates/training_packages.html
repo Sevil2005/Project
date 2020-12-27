@@ -1,0 +1,50 @@
+{% extends 'layout.html' %}
+{% block main %}
+<div class="site-wrapper-reveal">
+    <div class="about-banner-wrap banner-space bg-img" data-bg="{{ banner_file }}">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 ml-auto mr-auto">
+                    <div class="about-banner-content text-center">
+                        <h1 class="mb-15 text-white">Tədris paketləri</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="carousel-sliders-wrapper section-space--ptb_100">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="swiper-container carousel-slider__container">
+                        <div class="swiper-wrapper">
+                            {% for package in packages %}
+                                <div class="swiper-slide">
+                                    <div class="carousel-slider wow move-up">
+                                        <div class="carousel-slider__content text-center">
+                                            <img src="{{ url_for('static', filename='user_assets/images/site_pics/' + package.pack_img) }}">
+                                            <div class="pricing-table__price-wrap">
+                                                <p>{{ package.title }}</p>
+                                            </div>
+                                            <div class="text">{{ package.description }}</div>
+                                            <div class="pricing-table__footer">
+                                                <a href="foundation.html" class="ht-btn ht-btn-default btn--secondary">Ətraflı</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                        <div class="swiper-pagination swiper-pagination-9 section-space--mt_50"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-12">
+        <div class="feature-list-button-box mt-30 text-center">
+            <button class="ht-btn ht-btn-md apply-btn">İndi müraciət et</button>
+        </div>
+    </div>
+</div>
+{% endblock %}
