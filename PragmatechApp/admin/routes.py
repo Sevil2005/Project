@@ -1,8 +1,8 @@
 import os
 from flask import Flask, render_template, url_for, redirect, request, Blueprint
-from PragmatechApp import app
+from PragmatechApp import app, user
 from PragmatechApp.models import session, AboutPage, QuestionAnswer, Advantage, BannerImg, Package, AdmissionStage
-from PragmatechApp.admin.forms import BannerImgForm, AboutPageForm, QuestionAnswerForm, CardForm
+from PragmatechApp.admin.forms import BannerImgForm, AboutPageForm, QuestionAnswerForm, CardForm, SinglePageBannerImgForm
 from werkzeug.utils import secure_filename
 
 admin = Blueprint('admin', __name__, template_folder="templates")
@@ -22,6 +22,10 @@ def banner_add():
         banner_file = secure_filename(uploaded_file.filename)
         uploaded_file.save(os.path.join(app.config['UPLOAD_PATH'], banner_file))
 
+        if form.page_name.data == "Haqqımızda":
+            about_banner = AboutPage(banner_img = banner_file)
+            session.add(about_banner)
+
         new_banner = BannerImg(banner_img = banner_file, page_name = form.page_name.data)
         session.add(new_banner)
         session.commit()
@@ -31,7 +35,6 @@ def banner_add():
 @admin.route('/dashboard/səhifələr/banner-sil/<int:id>', methods = ['GET'])
 def banner_delete(id):
     selectedData = session.query(BannerImg).get(id)
-    os.remove(os.path.join(app.config['UPLOAD_PATH'], selectedData.banner_img))
     session.delete(selectedData)
     session.commit()
     return redirect(url_for('admin.banner_add'))
@@ -54,19 +57,17 @@ def about_edit(id):
         if form.banner_img.data:
             uploaded_banner_file = request.files['banner_img']
             banner_filename = secure_filename(uploaded_banner_file.filename)
-            os.remove(os.path.join(app.config['UPLOAD_PATH'], selectedData.banner_img))
             uploaded_banner_file.save(os.path.join(app.config['UPLOAD_PATH'], banner_filename))
             selectedData.banner_img = banner_filename
         if form.second_img.data:
             uploaded_second_file = request.files['second_img']
             second_filename = secure_filename(uploaded_second_file.filename)
-            os.remove(os.path.join(app.config['UPLOAD_PATH'], selectedData.second_img))
             uploaded_second_file.save(os.path.join(app.config['UPLOAD_PATH'], second_filename))
             selectedData.second_img = second_filename
         
         selectedData.main_text = form.main_text.data
         session.commit()
-        return redirect(url_for('admin.about'))
+        return redirect(url_for('user.about'))
     elif request.method =='GET':
         form.main_text.data = selectedData.main_text
     return render_template('admin_about_page/admin_about_edit.html', form=form)
@@ -108,18 +109,17 @@ def about_que_delete(id):
 
 @admin.route('/dashboard/səhifələr/üstünlüklər', methods=['GET', 'POST'])
 def advantages():
-    form = BannerImgForm()
+    form = SinglePageBannerImgForm()
     advantages = session.query(Advantage).all()
     selectedBanner = session.query(BannerImg).get(2)
     if form.validate_on_submit():
         if form.banner_img.data:
             uploaded_banner_file = request.files['banner_img']
             banner_filename = secure_filename(uploaded_banner_file.filename)
-            os.remove(os.path.join(app.config['UPLOAD_PATH'], selectedBanner.banner_img))
             uploaded_banner_file.save(os.path.join(app.config['UPLOAD_PATH'], banner_filename))
             selectedBanner.banner_img = banner_filename
             session.commit()
-        return redirect(url_for('admin.advantages'))
+        return redirect(url_for('user.advantages'))
     return render_template('admin_advantages_page/admin_advantages.html', form=form, advantages=advantages)
 
 @admin.route('/dashboard/səhifələr/üstünlüklər/əlavə-et', methods = ['GET', 'POST'])
@@ -144,7 +144,6 @@ def advantage_edit(id):
         if form.card_img.data:
             uploaded_banner_file = request.files['card_img']
             svg_filename = secure_filename(uploaded_banner_file.filename)
-            os.remove(os.path.join(app.config['UPLOAD_PATH'], selectedAdv.svg_img))
             uploaded_banner_file.save(os.path.join(app.config['UPLOAD_PATH'], svg_filename))
             selectedAdv.svg_img = svg_filename
         selectedAdv.title = form.title.data
@@ -167,18 +166,17 @@ def advantage_delete(id):
 
 @admin.route('/dashboard/səhifələr/tədris-paketləri', methods=['GET', 'POST'])
 def packages():
-    form = BannerImgForm()
+    form = SinglePageBannerImgForm()
     packages = session.query(Package).all()
     selectedBanner = session.query(BannerImg).get(3)
     if form.validate_on_submit():
         if form.banner_img.data:
             uploaded_banner_file = request.files['banner_img']
             banner_filename = secure_filename(uploaded_banner_file.filename)
-            os.remove(os.path.join(app.config['UPLOAD_PATH'], selectedBanner.banner_img))
             uploaded_banner_file.save(os.path.join(app.config['UPLOAD_PATH'], banner_filename))
             selectedBanner.banner_img = banner_filename
             session.commit()
-        return redirect(url_for('admin.packages'))
+        return redirect(url_for('user.packages'))
     return render_template('admin_packages_page/admin_packages.html', form=form, packages=packages)
 
 @admin.route('/dashboard/səhifələr/tədris-paketləri/əlavə-et', methods = ['GET', 'POST'])
@@ -187,7 +185,6 @@ def package_add():
     if form.validate_on_submit():
         uploaded_file = request.files['card_img']
         pack_file = secure_filename(uploaded_file.filename)
-        uploaded_file.save(os.path.join(app.config['UPLOAD_PATH'], pack_file))
 
         new_pack = Package(pack_img = pack_file, title = form.title.data, description = form.description.data)
         session.add(new_pack)
@@ -203,7 +200,6 @@ def package_edit(id):
         if form.card_img.data:
             uploaded_banner_file = request.files['card_img']
             pack_filename = secure_filename(uploaded_banner_file.filename)
-            os.remove(os.path.join(app.config['UPLOAD_PATH'], selectedPack.pack_img))
             uploaded_banner_file.save(os.path.join(app.config['UPLOAD_PATH'], pack_filename))
             selectedPack.pack_img = pack_filename
         selectedPack.title = form.title.data
@@ -226,18 +222,17 @@ def package_delete(id):
 
 @admin.route('/dashboard/səhifələr/qəbul-prosesi', methods=['GET', 'POST'])
 def admission():
-    form = BannerImgForm()
+    form = SinglePageBannerImgForm()
     stages = session.query(AdmissionStage).all()
     selectedBanner = session.query(BannerImg).get(4)
     if form.validate_on_submit():
         if form.banner_img.data:
             uploaded_banner_file = request.files['banner_img']
             banner_filename = secure_filename(uploaded_banner_file.filename)
-            os.remove(os.path.join(app.config['UPLOAD_PATH'], selectedBanner.banner_img))
             uploaded_banner_file.save(os.path.join(app.config['UPLOAD_PATH'], banner_filename))
             selectedBanner.banner_img = banner_filename
             session.commit()
-        return redirect(url_for('admin.admission'))
+        return redirect(url_for('user.admission_process'))
     return render_template('admin_admission_page/admin_admission.html', form=form, stages=stages)
 
 @admin.route('/dashboard/səhifələr/qəbul-prosesi/əlavə-et', methods = ['GET', 'POST'])
@@ -262,7 +257,6 @@ def admission_stage_edit(id):
         if form.card_img.data:
             uploaded_banner_file = request.files['card_img']
             stage_filename = secure_filename(uploaded_banner_file.filename)
-            os.remove(os.path.join(app.config['UPLOAD_PATH'], selectedStage.stage_img))
             uploaded_banner_file.save(os.path.join(app.config['UPLOAD_PATH'], stage_filename))
             selectedStage.stage_img = stage_filename
         selectedStage.title = form.title.data

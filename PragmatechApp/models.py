@@ -19,8 +19,8 @@ class AboutPage(Base):
     __tablename__ = 'AboutPage'
     id = db.Column(db.Integer, primary_key=True)
     banner_img = db.Column(db.String(20), nullable=False)
-    main_text = db.Column(db.String(100), nullable=False)
-    second_img = db.Column(db.String(20), nullable=False)
+    main_text = db.Column(db.String(100), nullable=True)
+    second_img = db.Column(db.String(20), nullable=True)
 
 class QuestionAnswer(Base):
     __tablename__ = 'QuestionAnswer'
