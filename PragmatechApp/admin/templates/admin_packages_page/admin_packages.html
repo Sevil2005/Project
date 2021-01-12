@@ -5,6 +5,7 @@
                             <div class="card-body"> 
                                 <div class="row">
                                     <div class="col-lg-12">
+                                        <img src="{{ url_for('static', filename='user_assets/images/site_pics/' + banner_img.banner_img) }}" style="height:450px; width:1000px;margin-bottom:5px;">
                                         <form method="POST" action="" novalidate enctype="multipart/form-data" class="default-form"> 
                                             {{ form.hidden_tag() }}
                                             <div class="form-group row">
@@ -38,7 +39,7 @@
                                                     <th>#</th>
                                                     <th>Başlıq</th>
                                                     <th>Təsviri</th>
-                                                    <th>Şəkili</th>
+                                                    <th>Ikonu</th>
                                                     <th>Redaktə/Sil</th>
                                                 </tr>
                                             </thead>

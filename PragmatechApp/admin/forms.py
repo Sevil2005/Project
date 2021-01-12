@@ -2,7 +2,7 @@ from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileAllowed
 from wtforms import StringField, SubmitField, TextAreaField
 from wtforms.validators import DataRequired, Length, ValidationError
-from PragmatechApp.models import session, BannerImg
+from PragmatechApp.models import session, BannerImg, GuarantiesPage
 
 class BannerImgForm(FlaskForm):
     banner_img = FileField('Əsas Şəkil Redaktə Et', validators=[FileAllowed(['svg', 'jpg', 'png'])])
@@ -21,7 +21,6 @@ class SinglePageBannerImgForm(FlaskForm):
     submit = SubmitField('Redaktə Et')
 
 class AboutPageForm(FlaskForm):
-    banner_img = FileField('Əsas Şəkilin Redaktəsi', validators=[FileAllowed(['svg', 'jpg', 'png'])])
     main_text = TextAreaField('Əsas Yazı')
     second_img = FileField('İkinci Şəkilin Redaktəsi', validators=[FileAllowed(['svg', 'jpg', 'png'])])
     submit = SubmitField('Redaktə Et')
@@ -35,4 +34,15 @@ class CardForm(FlaskForm):
     card_img = FileField('Şəkili Əlavə Et', validators=[FileAllowed(['svg', 'jpg', 'png'])])
     title = TextAreaField('Başlıq', validators=[DataRequired()])
     description = TextAreaField('Təsviri', validators=[DataRequired()])
+    submit = SubmitField('Əlavə Et')
+
+class GuarantiesForm(FlaskForm):
+    content = TextAreaField('Səhifənin Detalları', validators=[DataRequired()], render_kw={"id": "textarea"})
+    submit = SubmitField('Mətni Redaktə Et')
+
+class PackageForm(FlaskForm):
+    pack_img = FileField('Şəkili Əlavə Et', validators=[FileAllowed(['svg', 'jpg', 'png'])])
+    title = TextAreaField('Başlıq', validators=[DataRequired()])
+    description = TextAreaField('Qısa Məzmunu', validators=[DataRequired()])
+    all_details = TextAreaField('Geniş Təsviri', validators=[DataRequired()], render_kw={"id": "textarea"})
     submit = SubmitField('Əlavə Et')

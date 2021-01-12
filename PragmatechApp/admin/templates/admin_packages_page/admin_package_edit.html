@@ -1,0 +1,98 @@
+{% extends 'admin_layout.html' %}
+{% block main %}
+<h4>{{ banner_img.page_name }} Tədris Paketinin Səhifəsinin Əsas Şəkili</h4>
+                        <div class="card">
+                            <div class="card-body"> 
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <img src="{{ url_for('static', filename='user_assets/images/site_pics/' + banner_img.banner_img) }}" style="height:450px; width:1000px;margin-bottom:5px;">
+                                        <form method="POST" action="" novalidate enctype="multipart/form-data" class="default-form"> 
+                                            {{ bannerForm.hidden_tag() }}
+                                            <div class="form-group row">
+                                                {{ bannerForm.banner_img.label(class="col-sm-2 col-form-label text-right") }}
+                                                {{ bannerForm.banner_img(style="margin-left:12px; margin-top:5px;") }}
+                                                {% if bannerForm.banner_img.errors %}
+                                                    {% for error in bannerForm.banner_img.errors %}
+                                                        <span class="text-danger">{{ error }}</span></br>
+                                                    {% endfor %}
+                                                {% endif %}
+                                            </div>    
+                                            <div class="form-group row">
+                                                {{ bannerForm.submit(class="btn btn-primary", style="margin-left:15px;") }}
+                                            </div>                               
+                                        </form>
+                                    </div>
+                                </div>                                                                      
+                            </div>
+                        </div>
+
+<h4>Digər Detallar</h4>
+                        <div class="card">
+                            <div class="card-body"> 
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <form method="POST" action="" novalidate enctype="multipart/form-data" class="default-form"> 
+                                            {{ form.hidden_tag() }}
+                                            <div class="form-group row">
+                                                {{ form.pack_img.label(class="col-sm-2 col-form-label text-right") }}
+                                                {{ form.pack_img(style="margin-left:12px; margin-top:5px;") }}
+                                                {% if form.pack_img.errors %}
+                                                    {% for error in form.pack_img.errors %}
+                                                        <span class="text-danger">{{ error }}</span></br>
+                                                    {% endfor %}
+                                                {% endif %}
+                                            </div> 
+                                            <div class="form-group row">
+                                                {{ form.title.label(class="col-sm-2 col-form-label text-right") }}
+                                                <div class="col-sm-10">
+                                                    {% if form.title.errors %}
+                                                        {{ form.title(class="is-invalid form-control") }}
+                                                        <div class="invalid-feedback">
+                                                            {% for error in form.title.errors %}
+                                                                <span>{{ error }}</span>
+                                                            {% endfor %}
+                                                        </div>
+                                                    {% else %}
+                                                        {{ form.title(class="form-control") }}
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                {{ form.description.label(class="col-sm-2 col-form-label text-right") }}
+                                                <div class="col-sm-10">
+                                                    {% if form.description.errors %}
+                                                        {{ form.description(class="is-invalid form-control") }}
+                                                        <div class="invalid-feedback">
+                                                            {% for error in form.description.errors %}
+                                                                <span>{{ error }}</span>
+                                                            {% endfor %}
+                                                        </div>
+                                                    {% else %}
+                                                        {{ form.description(class="form-control") }}
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                {{ form.all_details.label(class="col-sm-2 col-form-label text-right") }}
+                                                <div class="col-sm-10">
+                                                    {% if form.all_details.errors %}
+                                                        {{ form.all_details(class="is-invalid form-control") }}
+                                                        <div class="invalid-feedback">
+                                                            {% for error in form.all_details.errors %}
+                                                                <span>{{ error }}</span>
+                                                            {% endfor %}
+                                                        </div>
+                                                    {% else %}
+                                                        {{ form.all_details(class="form-control") }}
+                                                    {% endif %}
+                                                </div>
+                                            </div> 
+                                            <div class="form-group row">
+                                                {{ form.submit(class="btn btn-primary") }}
+                                            </div>                                 
+                                        </form>
+                                    </div>
+                                </div>                                                                      
+                            </div>
+                        </div>
+{% endblock %}

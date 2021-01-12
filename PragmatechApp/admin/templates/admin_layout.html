@@ -23,7 +23,9 @@
         <link href="{{ url_for('static', filename='admin/css/icons.min.css') }}" rel="stylesheet" type="text/css" />
         <link href="{{ url_for('static', filename='admin/css/metisMenu.min.css') }}" rel="stylesheet" type="text/css" />
         <link href="{{ url_for('static', filename='admin/css/app-material.min.css') }}" rel="stylesheet" type="text/css" />
-
+        
+        <!-- include summernote css/js -->
+        <link href="{{ url_for('static', filename='summernote/summernote.min.css') }}" rel="stylesheet">
     </head>
 
     <body>
@@ -65,7 +67,7 @@
                             <li class="nav-item"><a class="nav-link" href="{{ url_for('admin.about') }}">Haqqımızda</a></li>
                             <li class="nav-item"><a class="nav-link" href="{{ url_for('admin.advantages') }}">Üstünlüklər</a></li>
                             <li class="nav-item"><a class="nav-link" href="{{ url_for('admin.packages') }}">Tədris Paketləri</a></li>
-                            <li class="nav-item"><a class="nav-link" href="{{ url_for('admin.admission') }}">Qəbul Prosesi</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{{ url_for('admin.guaranties') }}">Zəmanətlərimiz</a></li>
                         </ul>
                     </div><!-- end Pages -->
 
@@ -132,8 +134,10 @@
         <script src="{{ url_for('static', filename='admin/js/waves.js') }}"></script>
         <script src="{{ url_for('static', filename='admin/js/feather.min.js') }}"></script>
         <script src="{{ url_for('static', filename='admin/js/jquery.slimscroll.min.js') }}"></script>
+        <script src="{{ url_for('static', filename='admin/js/summernote.js') }}"></script>
 
         <!-- App js -->
+        <script src="{{ url_for('static', filename='summernote/summernote.min.js') }}"></script>
         <script src="{{ url_for('static', filename='admin/js/app.js') }}"></script>
 
     </body>

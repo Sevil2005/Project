@@ -18,7 +18,6 @@ class BannerImg(Base):
 class AboutPage(Base):
     __tablename__ = 'AboutPage'
     id = db.Column(db.Integer, primary_key=True)
-    banner_img = db.Column(db.String(20), nullable=False)
     main_text = db.Column(db.String(100), nullable=True)
     second_img = db.Column(db.String(20), nullable=True)
 
@@ -41,13 +40,12 @@ class Package(Base):
     pack_img = db.Column(db.String(100), nullable=False)
     title = db.Column(db.Text, nullable=False)
     description = db.Column(db.Text, nullable=False)
+    all_details = db.Column(db.Text, nullable=False)
 
-class AdmissionStage(Base):
-    __tablename__ = 'AdmissionStage'
+class GuarantiesPage(Base):
+    __tablename__ = 'GuarantiesPage'
     id = db.Column(db.Integer, primary_key=True)
-    stage_img = db.Column(db.String(100), nullable=False)
-    title = db.Column(db.Text, nullable=False)
-    description = db.Column(db.Text, nullable=False)
+    content = db.Column(db.Text, nullable=False)
 
 Session = sessionmaker(engine)
 session = Session()

@@ -1,5 +1,30 @@
 {% extends 'admin_layout.html' %}
 {% block main %}
+<h4>Səhifənin Əsas Şəkili</h4>
+<div class="card">
+    <div class="card-body"> 
+        <div class="row">
+            <div class="col-lg-12">
+                <img src="{{ url_for('static', filename='user_assets/images/site_pics/' + banner_img.banner_img) }}" style="height:450px; width:1000px;margin-bottom:5px;">
+                <form method="POST" action="" novalidate enctype="multipart/form-data" class="default-form"> 
+                    {{ form.hidden_tag() }}
+                    <div class="form-group row">
+                        {{ form.banner_img.label(class="col-sm-2 col-form-label text-right") }}
+                        {{ form.banner_img(style="margin-left:12px; margin-top:5px;") }}
+                        {% if form.banner_img.errors %}
+                            {% for error in form.banner_img.errors %}
+                                <span class="text-danger">{{ error }}</span></br>
+                            {% endfor %}
+                        {% endif %}
+                    </div>    
+                    <div class="form-group row">
+                        {{ form.submit(class="btn btn-primary", style="margin-left:13px;") }}
+                    </div>                               
+                </form>
+            </div>
+        </div>                                                                      
+    </div>
+</div>
 <h4>Banner Section Datas</h4>
                     <div class="row">
                         <div class="col-lg-12">
@@ -9,8 +34,6 @@
                                         <table class="table table-striped mb-0">
                                             <thead>
                                                 <tr>
-                                                    <th>#</th>
-                                                    <th>Əsas Şəkil</th>
                                                     <th>Əsas Yazı</th>
                                                     <th>İkinci Şəkil</th>
                                                     <th>Redaktə</th>
@@ -19,8 +42,6 @@
                                             <tbody>
                                                 {% for data in datas %}
                                                     <tr>
-                                                        <td>{{ data.id }}</td>
-                                                        <td>{{ data.banner_img }}</td>
                                                         <td>{{ data.main_text }}</td>
                                                         <td>{{ data.second_img }}</td>
                                                         <td>

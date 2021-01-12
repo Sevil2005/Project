@@ -28,7 +28,7 @@
                                             </div>
                                             <div class="text">{{ package.description }}</div>
                                             <div class="pricing-table__footer">
-                                                <a href="foundation.html" class="ht-btn ht-btn-default btn--secondary">Ətraflı</a>
+                                                <a href="{{ url_for('user.package_details', pack_name= package.title) }}" class="ht-btn ht-btn-default btn--secondary">Ətraflı</a>
                                             </div>
                                         </div>
                                     </div>
@@ -39,11 +39,6 @@
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-    <div class="col-lg-12">
-        <div class="feature-list-button-box mt-30 text-center">
-            <button class="ht-btn ht-btn-md apply-btn">İndi müraciət et</button>
         </div>
     </div>
 </div>

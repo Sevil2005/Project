@@ -114,8 +114,8 @@
                     <div class="header position-relative">
 
                         <div class="header__logo top-logo">
-                            <a href="index.html">
-                                <img src="static/user_assets/images/logo/logo.png" class="img-fluid" alt="">
+                            <a href="{{ url_for('user.index') }}">
+                                <img src="{{ url_for('static', filename='user_assets/images/logo/logo.png') }}" class="img-fluid" alt="">
                             </a>
                         </div>
                         <div class="header-right flexible-image-slider-wrap">
@@ -211,15 +211,8 @@
                                             <li>
                                                 <a href="{{ url_for('user.packages') }}"><span>Tədris paketləri</span></a>
                                             </li>
-                                            <li class="has-children has-children--multilevel-submenu">
-                                                <a href="#"><span>Təhsil planları</span></a>
-                                                <ul class="submenu">
-                                                    <li><a href="frontend-development.html"><span>Frontend Development</span></a></li>
-                                                    <li><a href="backend-development.html"><span>Backend Development</span></a></li>
-                                                </ul>
-                                            </li>
                                             <li>
-                                                <a href="{{ url_for('user.admission_process') }}"><span>Qəbul prosesi</span></a>
+                                                <a href="{{ url_for('user.guaranties') }}"><span>Zəmanətlərimiz</span></a>
                                             </li>
                                             <li>
                                                 <a href="contact.html"><span>Əlaqə</span></a>
@@ -244,7 +237,7 @@
                 <div class="row footer-widget-wrapper">
                     <div class="col-lg-3 col-md-6 col-sm-6 footer-widget " style="text-align: center;">
                         <div class="footer-widget__logo mb-30">
-                            <img src="static/user_assets/images/logo/logo.png" class="img-fluid" alt="">
+                            <img src="{{ url_for('static', filename='user_assets/images/logo/logo.png') }}" class="img-fluid" alt="">
                         </div>
                         <ul class="list ht-social-networks solid-rounded-icon">
                             <li class="item">
@@ -276,18 +269,11 @@
                     <div class="col-lg-3 col-md-4 col-sm-6 footer-widget" style="text-align: center;">
                         <h6 class="footer-widget__title mb-20">Mərkəzimiz</h6>
                         <ul class="footer-widget__list">
-                            <li><a href="about-us.html" class="hover-style-link">Haqqımızda</a></li>
-                            <li><a href="pragmatech-ustunlukler.html" class="hover-style-link">Üstünlüklər</a></li>
+                            <li><a href="{{ url_for('user.about') }}" class="hover-style-link">Haqqımızda</a></li>
+                            <li><a href="{{ url_for('user.advantages') }}" class="hover-style-link">Üstünlüklər</a></li>
                             <li><a href="{{ url_for('user.packages') }}" class="hover-style-link">Tədris paketləri</a></li>
-                            <li><a href="{{ url_for('user.admission_process') }}" class="hover-style-link">Qəbul prosesi</a></li>
+                            <li><a href="{{ url_for('user.guaranties') }}" class="hover-style-link"><span>Zəmanətlərimiz</span></a></li>
                             <li><a href="contact.html" class="hover-style-link">Əlaqə</a></li>
-                        </ul>
-                    </div>
-                    <div class="col-lg-3 col-md-4 col-sm-6 footer-widget" style="text-align: center;">
-                        <h6 class="footer-widget__title mb-20">Təhsil planlarımız</h6>
-                        <ul class="footer-widget__list">
-                            <li><a href="frontend-development.html" class="hover-style-link">Front-End Development</a></li>
-                            <li><a href="backend-development.html" class="hover-style-link">Back-End Development</a></li>
                         </ul>
                     </div>
                 </div>
@@ -370,15 +356,8 @@
                         <li>
                             <a href="{{ url_for('user.packages') }}">Tədris paketləri</a>
                         </li>
-                        <li class="has-children">
-                            <a href="#">Təhsil planları</a>
-                            <ul class="sub-menu">
-                                <li><a href="frontend-development.html"><span>Frontend Development</span></a></li>
-                                <li><a href="backend-development.html"><span>Backend Development</span></a></li>
-                            </ul>
-                        </li>
                         <li>
-                            <a href="{{ url_for('user.admission_process') }}">Qəbul prosesi</a>
+                            <a href="{{ url_for('user.guaranties') }}">Zəmanətlərimiz</a>
                         </li>
                         <li>
                             <a href="contact.html">Əlaqə</a>

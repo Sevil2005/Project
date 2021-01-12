@@ -1,8 +1,8 @@
 import os
 from flask import Flask, render_template, url_for, redirect, request, Blueprint
 from PragmatechApp import app, user
-from PragmatechApp.models import session, AboutPage, QuestionAnswer, Advantage, BannerImg, Package, AdmissionStage
-from PragmatechApp.admin.forms import BannerImgForm, AboutPageForm, QuestionAnswerForm, CardForm, SinglePageBannerImgForm
+from PragmatechApp.models import session, AboutPage, QuestionAnswer, Advantage, BannerImg, Package, GuarantiesPage
+from PragmatechApp.admin.forms import BannerImgForm, AboutPageForm, QuestionAnswerForm, CardForm, SinglePageBannerImgForm, GuarantiesForm, PackageForm
 from werkzeug.utils import secure_filename
 
 admin = Blueprint('admin', __name__, template_folder="templates")
@@ -22,10 +22,6 @@ def banner_add():
         banner_file = secure_filename(uploaded_file.filename)
         uploaded_file.save(os.path.join(app.config['UPLOAD_PATH'], banner_file))
 
-        if form.page_name.data == "Haqqımızda":
-            about_banner = AboutPage(banner_img = banner_file)
-            session.add(about_banner)
-
         new_banner = BannerImg(banner_img = banner_file, page_name = form.page_name.data)
         session.add(new_banner)
         session.commit()
@@ -43,22 +39,33 @@ def banner_delete(id):
 
 # About Banner Section
 
-@admin.route('/dashboard/səhifələr/haqqımızda')
+@admin.route('/dashboard/səhifələr/haqqımızda', methods=['GET', 'POST'])
 def about():
     datas = session.query(AboutPage).all()
     questions = session.query(QuestionAnswer).all()
-    return render_template('admin_about_page/admin_about.html', datas=datas, questions=questions)
-
-@admin.route('/dashboard/səhifələr/haqqımızda/Banner-Section/redaktə-et/<int:id>', methods = ['GET', 'POST'])
-def about_edit(id):
-    form = AboutPageForm()
-    selectedData = session.query(AboutPage).get(id)
+    form = SinglePageBannerImgForm()
+    if session.query(AboutPage).get(1):
+        pass
+    else:
+        details = AboutPage(main_text = "Default Text", second_img = "defolt.jpg")
+        session.add(details)
+        session.commit()
+    selectedBanner = session.query(BannerImg).get(1)
     if form.validate_on_submit():
         if form.banner_img.data:
             uploaded_banner_file = request.files['banner_img']
             banner_filename = secure_filename(uploaded_banner_file.filename)
             uploaded_banner_file.save(os.path.join(app.config['UPLOAD_PATH'], banner_filename))
-            selectedData.banner_img = banner_filename
+            selectedBanner.banner_img = banner_filename
+            session.commit()
+        return redirect(url_for('user.about'))
+    return render_template('admin_about_page/admin_about.html', form=form, datas=datas, banner_img=selectedBanner, questions=questions)
+
+@admin.route('/dashboard/səhifələr/haqqımızda/Banner-Section/redaktə-et', methods = ['GET', 'POST'])
+def about_edit():
+    form = AboutPageForm()
+    selectedData = session.query(AboutPage).get(1)
+    if form.validate_on_submit():
         if form.second_img.data:
             uploaded_second_file = request.files['second_img']
             second_filename = secure_filename(uploaded_second_file.filename)
@@ -68,7 +75,7 @@ def about_edit(id):
         selectedData.main_text = form.main_text.data
         session.commit()
         return redirect(url_for('user.about'))
-    elif request.method =='GET':
+    elif request.method == 'GET':
         form.main_text.data = selectedData.main_text
     return render_template('admin_about_page/admin_about_edit.html', form=form)
 
@@ -120,7 +127,7 @@ def advantages():
             selectedBanner.banner_img = banner_filename
             session.commit()
         return redirect(url_for('user.advantages'))
-    return render_template('admin_advantages_page/admin_advantages.html', form=form, advantages=advantages)
+    return render_template('admin_advantages_page/admin_advantages.html', form=form, banner_img=selectedBanner, advantages=advantages)
 
 @admin.route('/dashboard/səhifələr/üstünlüklər/əlavə-et', methods = ['GET', 'POST'])
 def advantage_add():
@@ -177,39 +184,55 @@ def packages():
             selectedBanner.banner_img = banner_filename
             session.commit()
         return redirect(url_for('user.packages'))
-    return render_template('admin_packages_page/admin_packages.html', form=form, packages=packages)
+    return render_template('admin_packages_page/admin_packages.html', form=form, banner_img=selectedBanner, packages=packages)
 
 @admin.route('/dashboard/səhifələr/tədris-paketləri/əlavə-et', methods = ['GET', 'POST'])
 def package_add():
-    form = CardForm()
+    form = PackageForm()
     if form.validate_on_submit():
-        uploaded_file = request.files['card_img']
+        uploaded_file = request.files['pack_img']
         pack_file = secure_filename(uploaded_file.filename)
+        uploaded_file.save(os.path.join(app.config['UPLOAD_PATH'], pack_file))
 
-        new_pack = Package(pack_img = pack_file, title = form.title.data, description = form.description.data)
+        new_pack = Package(pack_img = pack_file, title = form.title.data, description = form.description.data, all_details = form.all_details.data)
         session.add(new_pack)
+        new_banner = BannerImg(banner_img = "defolt.jpg", page_name = form.title.data)
+        session.add(new_banner)
         session.commit()
         return redirect(url_for('admin.packages'))
-    return render_template('admin_card_add.html', form=form)
+    return render_template('admin_packages_page/admin_package_add.html', form=form)
 
 @admin.route('/dashboard/səhifələr/tədris-paketləri/redaktə-et/<int:id>', methods = ['GET', 'POST'])
 def package_edit(id):
-    form = CardForm()
+    form = PackageForm()
+    bannerForm = SinglePageBannerImgForm()
     selectedPack = session.query(Package).get(id)
     if form.validate_on_submit():
-        if form.card_img.data:
-            uploaded_banner_file = request.files['card_img']
+        if form.pack_img.data:
+            uploaded_banner_file = request.files['pack_img']
             pack_filename = secure_filename(uploaded_banner_file.filename)
             uploaded_banner_file.save(os.path.join(app.config['UPLOAD_PATH'], pack_filename))
             selectedPack.pack_img = pack_filename
         selectedPack.title = form.title.data
         selectedPack.description = form.description.data
+        selectedPack.all_details = form.all_details.data
         session.commit()
         return redirect(url_for('admin.packages'))
+    selectedBanner = session.query(BannerImg).get(3)
+    selectedPackBanner = session.query(BannerImg).filter_by(page_name=selectedPack.title).first()
+    if bannerForm.validate_on_submit():
+        if bannerForm.banner_img.data:
+            uploaded_banner_file = request.files['banner_img']
+            banner_filename = secure_filename(uploaded_banner_file.filename)
+            uploaded_banner_file.save(os.path.join(app.config['UPLOAD_PATH'], banner_filename))
+            selectedPackBanner.banner_img = banner_filename
+            session.commit()
+        return redirect(url_for('user.packages'))
     elif request.method == 'GET':
         form.title.data = selectedPack.title
         form.description.data = selectedPack.description
-    return render_template('admin_card_add.html', form=form)
+        form.all_details.data = selectedPack.all_details
+    return render_template('admin_packages_page/admin_package_edit.html', form=form, bannerForm=bannerForm, banner_img=selectedPackBanner)
 
 @admin.route('/dashboard/səhifələr/tədris-paketləri/sil/<int:id>', methods = ['GET'])
 def package_delete(id):
@@ -218,59 +241,32 @@ def package_delete(id):
     session.commit()
     return redirect(url_for('admin.packages'))
 
-# <--------------------------------------- Admin Admission Process Page --------------------------------------------------------->
+# <--------------------------------------- Admin Guaranties Page --------------------------------------------------------->
 
-@admin.route('/dashboard/səhifələr/qəbul-prosesi', methods=['GET', 'POST'])
-def admission():
+@admin.route('/dashboard/səhifələr/zəmanətlərimiz', methods=['GET', 'POST'])
+def guaranties():
     form = SinglePageBannerImgForm()
-    stages = session.query(AdmissionStage).all()
+    form_details = GuarantiesForm()
     selectedBanner = session.query(BannerImg).get(4)
+    if session.query(GuarantiesPage).get(1) :
+        pass
+    else :
+        details = GuarantiesPage(content = "Default Description")
+        session.add(details)
+        session.commit()
+    PageDetails = session.query(GuarantiesPage).get(1)
+    if form_details.validate_on_submit():
+        PageDetails.content = form_details.content.data
+        session.commit()
+        return redirect(url_for('admin.guaranties'))
     if form.validate_on_submit():
         if form.banner_img.data:
             uploaded_banner_file = request.files['banner_img']
             banner_filename = secure_filename(uploaded_banner_file.filename)
             uploaded_banner_file.save(os.path.join(app.config['UPLOAD_PATH'], banner_filename))
             selectedBanner.banner_img = banner_filename
-            session.commit()
-        return redirect(url_for('user.admission_process'))
-    return render_template('admin_admission_page/admin_admission.html', form=form, stages=stages)
-
-@admin.route('/dashboard/səhifələr/qəbul-prosesi/əlavə-et', methods = ['GET', 'POST'])
-def admission_stage_add():
-    form = CardForm()
-    if form.validate_on_submit():
-        uploaded_file = request.files['card_img']
-        stage_file = secure_filename(uploaded_file.filename)
-        uploaded_file.save(os.path.join(app.config['UPLOAD_PATH'], stage_file))
-
-        new_pack = AdmissionStage(stage_img = stage_file, title = form.title.data, description = form.description.data)
-        session.add(new_pack)
         session.commit()
-        return redirect(url_for('admin.admission'))
-    return render_template('admin_card_add.html', form=form)
-
-@admin.route('/dashboard/səhifələr/qəbul-prosesi/redaktə-et/<int:id>', methods = ['GET', 'POST'])
-def admission_stage_edit(id):
-    form = CardForm()
-    selectedStage = session.query(AdmissionStage).get(id)
-    if form.validate_on_submit():
-        if form.card_img.data:
-            uploaded_banner_file = request.files['card_img']
-            stage_filename = secure_filename(uploaded_banner_file.filename)
-            uploaded_banner_file.save(os.path.join(app.config['UPLOAD_PATH'], stage_filename))
-            selectedStage.stage_img = stage_filename
-        selectedStage.title = form.title.data
-        selectedStage.description = form.description.data
-        session.commit()
-        return redirect(url_for('admin.admission'))
+        return redirect(url_for('admin.guaranties'))
     elif request.method == 'GET':
-        form.title.data = selectedStage.title
-        form.description.data = selectedStage.description
-    return render_template('admin_card_add.html', form=form)
-
-@admin.route('/dashboard/səhifələr/qəbul-prosesi/sil/<int:id>', methods = ['GET'])
-def admission_stage_delete(id):
-    selectedStage = session.query(AdmissionStage).get(id)
-    session.delete(selectedStage)
-    session.commit()
-    return redirect(url_for('admin.admission'))
+        form_details.content.data = PageDetails.content
+    return render_template('admin_guaranties_page/admin_guaranties.html', form=form, form_details=form_details, details=PageDetails, banner_img=selectedBanner)
